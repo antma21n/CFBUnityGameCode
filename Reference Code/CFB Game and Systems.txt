@@ -1,0 +1,68 @@
+CFB Game and Systems
+
+Scenes
+1. Start Screen
+2. Field
+3. Menus
+
+Systems
+1. Team Hub: main area where player gets updates from other systems and can start next game with a game plan
+	- Start next game
+	- Quick Team Stats
+	- Quick Recuiting Stats
+	- CFB rankings
+	- Opponent Info
+	- GamePlan 
+2. Manage Team: manage players, boosters, AD and fans
+	- Player Data
+		- Rating
+		- Game Stats
+		- Morale
+		- Health
+		- Traits 
+	- Boosters
+	- AD Management 
+	- Fan Managerment 
+3. [Important but not priority] Recuiting
+	- Recruit Generator
+	- Recruit List
+		- all recruitable players
+	- Recruit Stats
+		- Scouted, Potential Rating, Actual Rating, Position, Commitment Level
+	- Watch List
+		- players you want
+	- Recruit Actions: Spend recruit points to sign players
+		- Visits
+		- Coach Visit
+		- Scout
+		- NCAA Game Visit
+		- HS Game Visit
+		- Workout 
+		- Scholarship Offer 
+		- Sign Player
+4. Around the League: A screen to display a simulated NCAA to see how your rivals and other teams are doing
+	- CFB Polls
+	- Team Ratings
+	- Team Game Stats
+	- Simulation week to week of games 
+	- Start of Season Schedule Creator
+5. [NICE TO HAVE] Stats and HOF: A screen to display NCAA record and your favorite players to play for you
+	- Record Screen
+	- HOF screen
+6. [NICE TO HAVE] Options
+	- various settings
+	- sound settings
+	- quit game 
+
+
+
+Notes: Scriptable Objects
+- Not sure how to automate the inputs of the scriptable objects
+- for teams
+	- manually input each team and thier stats 
+- for recrcuits
+	- manually input nameless number of players
+		- random function is ran at beginning of year to change names and ststs
+		- same objects used every year with rerolled stats 
+- plays
+	- stat stats for each route and play that never changes and just called during nextplay() funciton

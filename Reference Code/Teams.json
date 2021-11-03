@@ -1,0 +1,84 @@
+//Data I want
+// - Team Data (name, colors, wins, loses, oppenents, results, offense rating, defense rating, special teams rating, coach rating, players, team stats)
+[
+    {
+        "team": "Akron",
+        "colors": "",
+        "wins": 1,
+        "loses": 4,
+        "opponents": [
+            "Auburn",
+            "Temple",
+            "Bryant",
+            "OhioSt.",
+            "Ohio",
+            "BowlingGreen",
+            "Miami(Ohio)",
+            "Buffalo",
+            "BallSt.",
+            "WesternMich.",
+            "KentSt.",
+            "Toledo"
+        ],
+        "results": [
+            "L",
+            "L",
+            "W",
+            "L",
+            "L",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        ],
+        "offense rating": 50,
+        "defense rating": 45,
+        "special rating": 65,
+        "coach rating": 30,
+        "players": "TBD",
+        "stats": "TBD"
+    },
+    {
+        "team": "Alabama",
+        "colors": "",
+        "wins": 1,
+        "loses": 4,
+        "opponents": [
+            "Miami(Fla.)",
+            "Mercer",
+            "Florida",
+            "SouthernMiss.",
+            "Mississippi",
+            "TexasA&M",
+            "MississippiSt.",
+            "Tennessee",
+            "LSU",
+            "NewMexicoSt.",
+            "Arkansas",
+            "Auburn"
+        ],
+        "results": [
+            "W",
+            "W",
+            "W",
+            "W",
+            "W",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        ],
+        "offense rating": 90,
+        "defense rating": 93,
+        "special rating": 99,
+        "coach rating": 99,
+        "players": "TBD",
+        "stats": "TBD"
+    }
+]
