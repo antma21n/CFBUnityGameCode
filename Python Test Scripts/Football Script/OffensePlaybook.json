@@ -1,1 +1,35 @@
 make playbook for offense and defense and make them scripable objects
+
+Offense Plays
+- Run
+	- ISO
+	- Power Run
+	- Dive
+	- Outside Tackle
+	- Inside Tackle
+	- Strech
+	- Toss
+	- End Around
+	- Sweep
+- Option
+	- RPO
+	- Speed Option
+	- Traditional Option
+- Shotgun and 5 Step Drop Pass
+	- 4 Verts
+	- Hail Marry
+	- Quick Slants
+	- TE Attack
+
+Defense Plays
+- Cover 0
+- Cover 1
+- Cover 2
+- Cover 3
+- Cover 4
+- Cover 6
+- Man
+- Zone
+- Lurk and Spy 
+- Blitz Packages
+- 3 Deep Prevent

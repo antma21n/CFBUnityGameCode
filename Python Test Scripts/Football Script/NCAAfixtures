@@ -3,26 +3,26 @@ westRR = RoundRobin(west)
 eastRR = RoundRobin(east)
 CrossDivisionRR = RoundRobin(west and east) #for annual week 10 CD games
 
-for team in S ECteams:
+for team in SECteams:
 	while week < 13:
 		if week == 1 or 2 or 3:
 			Opponent = SelectOOC()
 
 		if week == 4:
-			Opponent = westRR[1] #if west
-			Opponent = eastRR[1] #if east
+			Opponent = westRR[1][team] #if west
+			Opponent = eastRR[1][team] #if east
 
 		if week == 5:
-			Opponent = westRR[2]
-			Opponent = eastRR[2]
+			Opponent = westRR[2][team]
+			Opponent = eastRR[2][team]
 
 		if week == 6:
-			Opponent = westRR[3]
-			Opponent = eastRR[3]
+			Opponent = westRR[3][team]
+			Opponent = eastRR[3][team]
 
 		if week == 7:
-			Opponent = westRR[4]
-			Opponent = eastRR[4]
+			Opponent = westRR[4][team]
+			Opponent = eastRR[4][team]
 
 		if week == 8:
 			CDRival = CrossDivisionRival(team)
@@ -32,16 +32,16 @@ for team in S ECteams:
 				Opponent = 'bye'
 
 		if week == 9:
-			Opponent = westRR[5]
-			Opponent = eastRR[5]
+			Opponent = westRR[5][team]
+			Opponent = eastRR[5][team]
 
 		if week == 10: #larger round robin for random teams
 			Opponent = CrossDivisionRR()
 			#Opponent = SelectRCD(CDRival) #except Cross division rival
 
 		if week == 11:
-			Opponent = westRR[6]
-			Opponent = eastRR[6]
+			Opponent = westRR[6][team]
+			Opponent = eastRR[6][team]
 
 		if week = 12:
 			Opponent = SelectOOC()
@@ -55,6 +55,6 @@ for team in S ECteams:
 				Opponent = 'georgia'
 
 		if week == 13:
-			Opponent = RivalWeek[0] 
+			Opponent = RivalWeek[0][team]
 
 		week = week + 1
