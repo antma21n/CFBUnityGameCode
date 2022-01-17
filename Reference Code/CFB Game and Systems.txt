@@ -1,5 +1,12 @@
 CFB Game and Systems
 
+Main Systems
+1. Playing a Football Game
+2. Recuiting new players
+3. Manage current players, staff, fans, boosters
+4. League Simulation
+5. Statistics 
+
 Scenes
 1. Start Screen
 2. Field
