@@ -9,7 +9,7 @@ startLine = 20
 down = 1
 yardsToGo = 10
 team1Score = 0
-team2Score = 0
+team2Score = 0 
 		
 #offense
 while True:
