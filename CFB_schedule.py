@@ -1,6 +1,9 @@
 import random
 import json
 
+#! Need to fix, interdivision rivals. It is causing some small issues. See Arkansas-Mizzou, and UNC-NC State
+# could do a little switcharoo. When rival moves to rival week slot. It takes that opponents and moves it up.  
+
 def getConference(id):
     if id == 0:
         return "SEC"
@@ -79,64 +82,60 @@ gTeamIndex = {
     "Indiana": 51
 }
 gTeamInfo = {
-    "Alabama": [0,0,"Auburn",0],
-    "Texas A&M": [0,0,"LSU",0],
-    "Ole Miss": [0,0,"Miss St.",0],
-    "Auburn": [0,0,"Alabama",0],
-    "Miss St.": [0,0,"Ole Miss",0],
-    "Arkansas": [0,0,"Mizzou",0],
-    "LSU": [0,0,"Texas A&M",0],
-    "Georgia": [0,1,"Georgia Tech",1],
-    "Kentucky": [0,1,"",0],
-    "Tennessee": [0,1,"",0],
-    "Florida": [0,1,"",0],
-    "Mizzou": [0,1,"",0],
-    "South Carolina": [0,1,"",0],
-    "Vandy": [0,1,"",0],
-    "Wake Forest": [4,0,"",0],
-    "NC State": [4,0,"",0],
-    "Clemson": [4,0,"",0],
-    "Louiville": [4,0,"",0],
-    "FSU": [4,0,"",0],
-    "Syracuse": [4,0,"",0],
-    "Boston College": [4,0,"",0],
-    "Pitt": [4,1,"",0],
-    "Miami": [4,1,"",0],
-    "Virginia Tech": [4,1,"",0],
-    "Virginia": [4,1,"",0],
-    "UNC": [4,1,"",0],
-    "Georgia Tech": [4,1,"",0],
-    "Duke": [4,1,"",0],
-    "Oklahoma State": [2,0,"",0],
-    "Baylor": [2,0,"",0],
-    "OU": [2,0,"",0],
-    "Iowa State": [2,0,"",0],
-    "Kansas State": [2,0,"",0],
-    "West Virginia": [2,0,"",0],
-    "Texas": [2,0,"",0],
-    "TCU": [2,0,"",0],
-    "Texas Tech": [2,0,"",0],
-    "Kansas": [2,0,"",0],
-    "Iowa": [2,0,"",0],
-    "Minnesota": [1,0,"",0],
-    "Wisconsin": [1,0,"",0],
-    "Purdue": [1,0,"",0],
-    "Illinois": [1,0,"",0],
-    "Nebraska": [1,0,"",0],
-    "Northwestern": [1,0,"",0],
-    "Michigan": [1,1,"",0],
-    "Ohio State": [1,1,"",0],
-    "Michigan State": [1,1,"",0],
-    "Penn State": [1,1,"",0],
-    "Maryland": [1,1,"",0],
-    "Rutgers": [1,1,"",0],
-    "Indiana": [1,1,"",0]
+    "Alabama": [0,0,"Auburn",False],
+    "Texas A&M": [0,0,"LSU",False],
+    "Ole Miss": [0,0,"Miss St.",False],
+    "Auburn": [0,0,"Alabama",False],
+    "Miss St.": [0,0,"Ole Miss",False],
+    "Arkansas": [0,0,"Mizzou",True],
+    "LSU": [0,0,"Texas A&M",False],
+    "Georgia": [0,1,"Georgia Tech",True],
+    "Kentucky": [0,1,"Louiville",True],
+    "Tennessee": [0,1,"Vandy",False],
+    "Florida": [0,1,"FSU",True],
+    "Mizzou": [0,1,"Arkansas",True],
+    "South Carolina": [0,1,"Clemson",True],
+    "Vandy": [0,1,"Tennessee",False],
+    "Wake Forest": [4,0," ",0],
+    "NC State": [4,0,"UNC",True],
+    "Clemson": [4,0,"South Carolina",True],
+    "Louiville": [4,0,"Kentucky",True],
+    "FSU": [4,0,"Florida",True],
+    "Syracuse": [4,0," ",False],
+    "Boston College": [4,0," ",False],
+    "Pitt": [4,1,"West Virginia",True],
+    "Miami": [4,1," ",False],
+    "Virginia Tech": [4,1,"Virginia",False],
+    "Virginia": [4,1,"Virginia Tech",False],
+    "UNC": [4,1,"NC State",True],
+    "Georgia Tech": [4,1,"Georgia",True],
+    "Duke": [4,1," ",False],
+    "Oklahoma State": [2,0,"OU",False],
+    "Baylor": [2,0," ",False],
+    "OU": [2,0,"Oklahoma State",False],
+    "Iowa State": [2,0," ",False],
+    "Kansas State": [2,0,"Kansas",False],
+    "West Virginia": [2,0,"Pitt",True],
+    "Texas": [2,0," ",False],
+    "TCU": [2,0," ",False],
+    "Texas Tech": [2,0," ",False],
+    "Kansas": [2,0,"Kansas State",False],
+    "Iowa": [2,0," ",False],
+    "Minnesota": [1,0,"Wisconsin",False],
+    "Wisconsin": [1,0,"Minnesota",False],
+    "Purdue": [1,0,"Indiana",True],
+    "Illinois": [1,0,"Northwestern",True],
+    "Nebraska": [1,0," ",False],
+    "Northwestern": [1,0,"Illinois",True],
+    "Michigan": [1,1,"Ohio State",False],
+    "Ohio State": [1,1,"Michigan",False],
+    "Michigan State": [1,1,"Penn State",False],
+    "Penn State": [1,1,"Michigan State",False],
+    "Maryland": [1,1,"Rutgers",False],
+    "Rutgers": [1,1,"Maryland",False],
+    "Indiana": [1,1,"Purdue",True]
 }
-#dict = {
-# "team": [confluence,division,rival,OOCRivalBool]
-# "Texas A&M": [iSEC,iSECW,iLSU,0] //if OOCRivalBool = 0, curate 3 ooc games, when playing rival during round robin add bye week
-# "South Carolina": [iSEC,iSECE,iClemson,1] //if OOCRivalBool = 1, only curate 2 ooc games, third is a bye do team can fit rival in final week
-# }
+#[Conference, Division, Rival, isOOCRival]
 
 teamlist = []
 
@@ -169,6 +168,15 @@ for i in teamlist:
     rules.update(team)
 seasonLen = 8
 
+def shuffleDivisions():
+    random.shuffle(SECW)
+    random.shuffle(SECE)
+    random.shuffle(ACCatlantic)
+    random.shuffle(ACCcoastal)
+    random.shuffle(B12)
+    random.shuffle(B1Geast)
+    random.shuffle(B1Gwest)
+shuffleDivisions()
 #rules
  #ConN must play all opponents
  #ConN must play at least 2 other opponents
@@ -184,7 +192,7 @@ def updateRules(team,opp):
     rules.update(teamUpdate)
 
 #Draw out of conference opponents
-def getOOConference(week):
+def getOOConference(week,isWeekOne):
     picked_exclude = [] #depending on team there should be special excludes
     count = 0
     for team in teamlist:
@@ -200,6 +208,16 @@ def getOOConference(week):
         findingOpp = True
         if len(rules[team]) > week:
             findingOpp = False
+        #if rival is OOC but not in Conference
+        if gTeamInfo[team][3] and isWeekOne:
+            opp = gTeamInfo[team][2]
+            if gTeamInfo[team][0] == gTeamInfo[opp][0]:
+                updateRules(team,opp)
+                #updateRules(opp,team)
+                to_exclude.append(gTeamIndex[team])
+                to_exclude.append(gTeamIndex[opp])
+                findingOpp = False
+
         while findingOpp:
             if hangCount > 1000:
                 updateRules(team,"FCS")
@@ -212,6 +230,10 @@ def getOOConference(week):
             #print(to_exclude)
             randInt = random.choice(list(set([x for x in range(0, len(teamlist))]) - set(to_exclude)))
             opp = teamlist[randInt]
+            
+            if (gTeamInfo[team][2] != " ") & isWeekOne & (gTeamInfo[team][3]): #this is not correct
+                isOpp = False
+            # if gTeamInfo[team][2] != gTeamInfo[opp][2]:
 
             if opp == team:
                 isOpp = False
@@ -235,9 +257,27 @@ def getOOConference(week):
                 findingOpp = False
     return week
 
-def roundRobin(teams,numFix,rounds):
+def roundRobin(teams,numFix,rounds,isCrossDiv = False):
     #numFix = numFix - 1 
+
+    #if rival is in other division, remove from round robin
+    # if isCrossDiv:
+    #     removeRR = []
+    #     for team in teams:
+    #         removeRR = []
+    #         rival = gTeamInfo[team][2]
+    #         if (rival != " "):
+    #             if gTeamInfo[team][1] != gTeamInfo[rival][1]:
+    #                 if gTeamInfo[team][0] == gTeamInfo[rival][0]:
+    #                     removeRR.append(team)
+    #                     removeRR.append(rival)
+    #                     numFix = numFix - 2
+    #                     print("same conference")
+    #     for i in removeRR:
+    #         teams.remove(i)
+    #         print(teams)
     count = 0
+
     if(len(teams) % 2 != 0):
         teams.append('bye')
     numRounds = len(teams) - 1
@@ -263,27 +303,29 @@ def roundRobin(teams,numFix,rounds):
     return teams
 
 #OOC
-getOOConference(0)
-getOOConference(1)
-getOOConference(2)
+getOOConference(0,False)
+getOOConference(1,False)
+getOOConference(2,True)
 
 #SEC
 roundRobin(SECW,1,50)
 roundRobin(SECE,1,50)
-roundRobin(SEC,7,2)
+roundRobin(SEC,7,3,True)
 
 #B1G
 roundRobin(B1Gwest,1,50)
 roundRobin(B1Geast,1,50)
-roundRobin(B1G,7,3)
+roundRobin(B1G,7,3,True)
+
+#ACC
+roundRobin(ACCatlantic,1,50)
+roundRobin(ACCcoastal,1,50)
+roundRobin(ACC,7,3,True)
+
 
 #B12
 roundRobin(B12,1,50)
 
-print(rules)
-
-with open("teams.json", "w") as fp:
-    json.dump(rules , fp, indent = 4)
 
 # teamindex = {}
 # c=0
@@ -294,3 +336,17 @@ with open("teams.json", "w") as fp:
 
 # with open("teamsids.json", "w") as fp:
 #     json.dump(teamindex , fp, indent = 4)
+
+def reorderSchedule(rules):
+    for i in rules:
+        for j in rules[i]:
+            if j == gTeamInfo[i][2]:
+                rules[i].append(rules[i].pop(rules[i].index(j)))
+                rules.update({i:rules[i]})
+                #move element to the end
+                pass
+        print(rules[i])
+reorderSchedule(rules)
+
+with open("teams.json", "w") as fp:
+    json.dump(rules , fp, indent = 4)
