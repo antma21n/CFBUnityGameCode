@@ -177,6 +177,8 @@ def shuffleDivisions():
     random.shuffle(B1Geast)
     random.shuffle(B1Gwest)
 shuffleDivisions()
+SEC = SECW + SECE
+
 #rules
  #ConN must play all opponents
  #ConN must play at least 2 other opponents
@@ -345,7 +347,15 @@ def reorderSchedule(rules):
                 rules.update({i:rules[i]})
                 #move element to the end
                 pass
-        print(rules[i])
+        if len(rules[i])>13:
+            rules[i].pop()
+            rules.update({i:rules[i]})
+            print("hi")
+        if len(rules[i])<13:
+            rules[i].append("bye")
+            rules.update({i:rules[i]})
+            print("hi")
+        print(len(rules[i]))
 reorderSchedule(rules)
 
 with open("teams.json", "w") as fp:
