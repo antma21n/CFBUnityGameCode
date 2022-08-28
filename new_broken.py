@@ -177,8 +177,6 @@ def shuffleDivisions():
     random.shuffle(B1Geast)
     random.shuffle(B1Gwest)
 shuffleDivisions()
-SEC = SECW + SECE
-
 #rules
  #ConN must play all opponents
  #ConN must play at least 2 other opponents
@@ -213,9 +211,12 @@ def getOOConference(week,isWeekOne):
         #if rival is OOC but not in Conference
         if gTeamInfo[team][3] and isWeekOne:
             opp = gTeamInfo[team][2]
-            if gTeamInfo[team][0] == gTeamInfo[opp][0]:
+            if gTeamInfo[team][2] == opp:
+                # add = True
+                # if (gTeamInfo[team][0]==gTeamInfo[opp][0]) and (gTeamInfo[team][1]!=gTeamInfo[opp][1]):
+                #     add = False
+                # if add:
                 updateRules(team,opp)
-                #updateRules(opp,team)
                 to_exclude.append(gTeamIndex[team])
                 to_exclude.append(gTeamIndex[opp])
                 findingOpp = False
@@ -259,27 +260,9 @@ def getOOConference(week,isWeekOne):
                 findingOpp = False
     return week
 
-def roundRobin(teams,numFix,rounds,isCrossDiv = False):
+def roundRobin(teams,numFix,rounds):
     #numFix = numFix - 1 
-
-    #if rival is in other division, remove from round robin
-    # if isCrossDiv:
-    #     removeRR = []
-    #     for team in teams:
-    #         removeRR = []
-    #         rival = gTeamInfo[team][2]
-    #         if (rival != " "):
-    #             if gTeamInfo[team][1] != gTeamInfo[rival][1]:
-    #                 if gTeamInfo[team][0] == gTeamInfo[rival][0]:
-    #                     removeRR.append(team)
-    #                     removeRR.append(rival)
-    #                     numFix = numFix - 2
-    #                     print("same conference")
-    #     for i in removeRR:
-    #         teams.remove(i)
-    #         print(teams)
     count = 0
-
     if(len(teams) % 2 != 0):
         teams.append('bye')
     numRounds = len(teams) - 1
@@ -304,25 +287,93 @@ def roundRobin(teams,numFix,rounds,isCrossDiv = False):
         count +=1
     return teams
 
+def roundRobinCross(teams,numFix,rounds,isCrossDiv = False):
+    #numFix = numFix - 1 
+    
+    teamsReduced = teams.copy()
+    numFixReduced = numFix
+    #if rival is in other division, remove from round robin
+    if isCrossDiv:
+        removeRR = []
+        for team in teams:
+            removeRR = list(set(removeRR))
+            rival = gTeamInfo[team][2]
+            if (rival != " "):
+                if gTeamInfo[team][0] == gTeamInfo[rival][0]:
+                    if gTeamInfo[team][1] != gTeamInfo[rival][1]:
+                        #updateRules(team,rival)
+                        removeRR.append(team)
+                        removeRR.append(rival)
+                        numFixReduced = numFixReduced - 2
+        removeRR = list(set(removeRR))
+        for i in removeRR:
+            teamsReduced.remove(i)
+    count = 0
+
+    if(len(teams) % 2 != 0):
+        teams.append('bye')
+    numRounds = len(teams) - 1
+    halfSize = len(teams) / 2
+
+    if(len(teamsReduced) % 2 != 0):
+        teamsReduced.append('bye')
+    numRoundsReduced = len(teamsReduced) - 1
+    halfSizeReduced = len(teamsReduced) / 2
+
+    fixed = teamsReduced[0:numFixReduced] #fixed
+    #print(fixed)
+    move = teamsReduced[int(numFixReduced)]
+    rest = teamsReduced[int(numFixReduced)+1:]
+    rest.append(move)
+    fixed.extend(rest)
+    teamsReduced = fixed
+    #print(teamsReduced)
+    if rounds > count:
+        for i in range(1,int(len(teamsReduced)-halfSizeReduced)):
+            #print(teamsReduced[i]+" vs "+teamsReduced[int(numRounds-i)])
+            if teamsReduced[i] != 'bye':
+                updateRules(teamsReduced[i],teamsReduced[int(numRoundsReduced-i)])
+            if teamsReduced[int(numRoundsReduced-i)] != 'bye':
+                updateRules(teamsReduced[int(numRoundsReduced-i)],teamsReduced[i])
+    count +=1     
+    for i in range(0,int(len(teams)-numFix)):
+        fixed = teams[0:numFix] #fixed
+        #print(fixed)
+        move = teams[int(numFix)]
+        rest = teams[int(numFix)+1:]
+        rest.append(move)
+        fixed.extend(rest)
+        teams = fixed
+        #print(teams)
+        if rounds > count:
+            for j in range(0,int(len(teams)-halfSize)):
+                #print(teams[i]+" vs "+teams[int(numRounds-i)])
+                if teams[i] != 'bye':
+                    updateRules(teams[j],teams[int(numRounds-j)])
+                if teams[int(numRounds-j)] != 'bye':
+                    updateRules(teams[int(numRounds-j)],teams[j])
+        count +=1
+    return teams
+
 #OOC
-getOOConference(0,False)
+getOOConference(0,True)
 getOOConference(1,False)
-getOOConference(2,True)
+getOOConference(2,False)
 
 #SEC
 roundRobin(SECW,1,50)
 roundRobin(SECE,1,50)
-roundRobin(SEC,7,3,True)
+roundRobinCross(SEC,7,3,True)
 
 #B1G
 roundRobin(B1Gwest,1,50)
 roundRobin(B1Geast,1,50)
-roundRobin(B1G,7,3,True)
+roundRobinCross(B1G,7,3,True)
 
 #ACC
 roundRobin(ACCatlantic,1,50)
 roundRobin(ACCcoastal,1,50)
-roundRobin(ACC,7,3,True)
+roundRobinCross(ACC,7,3,True)
 
 
 #B12
@@ -347,56 +398,8 @@ def reorderSchedule(rules):
                 rules.update({i:rules[i]})
                 #move element to the end
                 pass
-        if len(rules[i])>13:
-            rules[i].pop()
-            rules.update({i:rules[i]})
-            print("hi")
-        if len(rules[i])<13:
-            rules[i].append("bye")
-            rules.update({i:rules[i]})
-            print("hi")
-        print(len(rules[i]))
+        print(i,len(rules[i]))
 reorderSchedule(rules)
 
 with open("teams.json", "w") as fp:
     json.dump(rules , fp, indent = 4)
-
-def simulateGame(team1Name,team2Name,gameDataDF):
-	
-	team1 = gameDataDF[gameDataDF["team"].str.contains(team1Name)]
-	team2 = gameDataDF[gameDataDF["team"].str.contains(team2Name)] #need to deal with multiple teams having word alabama in it
-	#print(team1, team2)
-	if len(team1) > 1:
-		narks = team1
-		for i in range(0,len(team1)):
-			if str(team1["team"][i]) != team1Name:
-				narks = narks.drop(str(team1["team"][i]))
-		team1 = narks
-	#print(team1)
-
-	if len(team2) > 1:
-		po = team2
-		for i in range(0,len(team2)):
-			if str(team2["team"][i]) != team2Name:
-				po = po.drop(str(team2["team"][i]))
-		team2 = po
-	#print(team2)
-
-	homeModifier  = 1.2
-	varianceModifier1 = random.randrange(0,100) / 100 + 1
-	team1Score = (0.5 * float(team1["Offense Rating"])) + (0.5 * float(team1["Defense Rating"])) * homeModifier * varianceModifier1
-	#need to generate a gameScore
-
-	varianceModifier2 = random.randrange(0,100) / 100 + 1
-	#print(team2["Offense Rating"])
-	#print(team2["Defense Rating"])
-	#issue here with 'empty dataframe for some entries. idk what it means'
-	team2Score = (0.5 * float(team2["Offense Rating"])) + (0.5 * float(team2["Defense Rating"])) * varianceModifier2
-	#need to generate a gameScore 
-
-	if(team1Score > team2Score):
-		print(team1Name,' Beat ', team2Name)
-	else:
-		print(team2Name,' Beat ', team1Name)
-  
-#simulateGame("Texas A&M","Alabama",gameDataDF)
